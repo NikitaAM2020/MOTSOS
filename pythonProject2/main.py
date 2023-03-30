@@ -31,7 +31,7 @@ def fourier_series(x, N):
 
 # будує графік оригінальної функції
 def plot(N):
-    x = np.linspace(-2*np.pi, 2*np.pi, 1000)
+    x = np.linspace(-np.pi, 3*np.pi, 1000)
     y = f(x)
 
     plt.figure(figsize=(15, 10))
@@ -44,7 +44,7 @@ def plot(N):
 
 # будує графіки наближення
 def plot_harmonics(N):
-    x = np.linspace(-2*np.pi, 2*np.pi, 1000)
+    x = np.linspace(-np.pi, 3*np.pi, 1000)
     y = f(x)
     s = np.zeros_like(x)
 
@@ -59,6 +59,18 @@ def plot_harmonics(N):
     plt.show()
 
 
+# будує графіки відносної похибки для кожної точки
+def plot_error(N):
+    x = np.linspace(-2, 2, 1000)
+    error = np.vectorize(lambda x: relative_error(x, N))(x)
+
+    plt.figure(figsize=(15, 10))
+    plt.plot(x, error, label=f'Relative error for N={N}')
+    #plt.legend()
+    plt.show()
+
+
+
 def plot_ak(N):
     x = np.linspace(0, N, N)
     y = [ak(k) for k in range(1, N + 1)]
@@ -66,7 +78,6 @@ def plot_ak(N):
     plt.stem(x, y, label='ak coefficients')
     plt.legend()
     plt.show()
-
 
 
 
@@ -100,6 +111,7 @@ N = int(input("Enter N value: "))
 one = fourier_series(x, N)
 plot(N)
 plot_harmonics(N)
+plot_error(N)
 plot_ak(N)
 
 error = relative_error(x, N)
