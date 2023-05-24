@@ -23,12 +23,13 @@ def geometric_mean(values):
     return np.prod(values) ** (1 / len(values))
 
 
-def plot_graph(x, y, title):
+def plot_graph(x, y):
     plt.figure()
     plt.plot(x, y)
-    plt.title(title)
+    plt.plot(x, exact_value(x, A, n, phi), color='red')
     plt.xlabel('x')
     plt.ylabel('y')
+    plt.legend()
     plt.show()
 
 
@@ -53,8 +54,8 @@ def compare_errors(approximate, exact):
 
 def visualize_results(x, exact, approximate):
     plt.figure()
-    plt.plot(x, exact, label='Exact')
-    plt.plot(x, np.full_like(x, approximate), label='Approximate')
+    plt.plot(x, exact, label='')
+    # plt.plot(x, np.full_like(x, approximate), label='Approximate')
     plt.title('Comparison')
     plt.xlabel('x')
     plt.ylabel('y')
@@ -68,16 +69,19 @@ n = 8  # Параметр n
 phi = np.pi / 4  # Зсув по фазі
 
 x, y = generate_sequence(N, A, n, phi)
-plot_graph(x, y, 'Noisy Sequence')
+plot_graph(x, y)
 
 approximate_mean = arithmetic_mean(y)
+harmonic_mean = harmonic_mean(y)
+geometric_mean = geometric_mean(y)
+
 exact_values = exact_value(x, A, n, phi)
 max_absolute, min_absolute, max_relative, min_relative = compare_errors(approximate_mean, exact_values)
 
 print(f'Arithmetic Mean: {approximate_mean}')
+print(f'Harmonic Mean: {harmonic_mean}')
+print(f'Geometric Mean: {geometric_mean}')
 print(f'Max Absolute Error: {max_absolute}')
 print(f'Min Absolute Error: {min_absolute}')
 print(f'Max Relative Error: {max_relative}')
 print(f'Min Relative Error: {min_relative}')
-
-visualize_results(x, exact_values, approximate_mean)
